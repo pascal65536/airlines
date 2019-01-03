@@ -35,7 +35,7 @@ def main(parse_url):
         images = l.cssselect('img')
         for item in images:
             pic = item.get('src')
-            if not pic in pictures:
+            if pic not in pictures:
                 pictures.append(pic)
 
         # data for scrapping contents ':' and month defined later
