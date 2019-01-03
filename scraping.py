@@ -24,15 +24,15 @@ def main(parse_url):
     # all lines in div
     lines = details_doc.cssselect(NAME_CSS)[0].getchildren()
     
-    for line in lines:           
+    for l in lines:
         # find string contents month name
-        if line.text_content() in MONTHS:
-            month = line.text_content()
+        if l.text_content() in MONTHS:
+            month = l.text_content()
 
-        scrapping_data = line.text_content()
+        scrapping_data = l.text_content()
 
         # collect pictures in list
-        images = line.cssselect('img')
+        images = l.cssselect('img')
         for item in images:
             pic = item.get('src')
             if not pic in pictures:
