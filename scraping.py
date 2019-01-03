@@ -42,13 +42,14 @@ def main(parse_url):
         # data for scrapping contents ':' and month defined later
         if ':' in scrapping_data and not month == '':           
             scrapping_list = scrapping_data.split(':')
+
+            print(scrapping_list)
             
             if scrapping_list[0] == 'Airline' and len(airline) > 1:
                 if not len(pictures) == 0:
                     airline['picture'] = pictures.pop(0)
                 airlines.append(airline)
                 airline = {}
-                #airline['picture'] = picture
 
             airline[scrapping_list[0]] = scrapping_list[1].strip()
             airline['month'] = month
@@ -59,9 +60,9 @@ def main(parse_url):
 
 
 def show(lists):
-    for list in lists[:3]:
-        #pass
-        print(list)
+    for list in lists[:]:
+        pass
+        #print(list)
         
 if __name__ == '__main__':
     # scrapping page
