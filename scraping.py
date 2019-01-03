@@ -56,7 +56,7 @@ def main(parse_url):
                 
             # fix error
             if not len(ext) == 0:
-                value = value.replace('Airline', '').strip()
+                airline[key] = value.replace('Airline', '').strip()
                 if not len(pictures) == 0:
                     airline['picture'] = pictures.pop(0)
                 airlines.append(airline)
