@@ -13,8 +13,8 @@ def main(parse_url):
     NAME_CSS = '#post-45659 > div.entry-content'
     
     month = ''
-    airlines = []
     airline = {}
+    airlines = []
     pictures = []
     
     # f = urlopen(parse_url)
