@@ -1,10 +1,8 @@
-import urllib.request
 from urllib.request import urlopen
 from lxml.html import fromstring
 import cssselect
 import json
 from datetime import datetime, date, time
-from lxml import etree
 
 
 def main(parse_url):
@@ -19,7 +17,7 @@ def main(parse_url):
     airline = {}
     pictures = []
     
-    f = urlopen(parse_url)
+    # f = urlopen(parse_url)
     details_html = urlopen(parse_url).read().decode('utf-8')
     details_doc = fromstring(details_html)
 
@@ -27,7 +25,7 @@ def main(parse_url):
     lines = details_doc.cssselect(NAME_CSS)[0].getchildren()
     
     for line in lines:           
-        # find strind contents month name
+        # find string contents month name
         if line.text_content() in MONTHS:
             month = line.text_content()
 
@@ -68,7 +66,6 @@ def main(parse_url):
             airline['month'] = month
             airline['created'] = datetime.now()
 
-
     # last data is last airlines and picture
     airline['picture'] = pictures.pop(0)
     airlines.append(airline)
@@ -76,10 +73,11 @@ def main(parse_url):
     return airlines
 
 
-def show(lists):
-    for list in lists[:]:
+def show(lst):
+    for l in lst:
         #pass
-        print(list)
+        print(l)
+
         
 if __name__ == '__main__':
     # scrapping page
