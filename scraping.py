@@ -8,7 +8,6 @@ from lxml import etree
 
 
 def main(parse_url):
-    print(parse_url)
 
     # set of months name
     MONTHS = {'January','February','March','April','May','June','July','August','September','October','November','December'}
@@ -34,6 +33,7 @@ def main(parse_url):
 
         scrapping_data = line.text_content()
 
+        # collect pictures in list
         images = line.cssselect('img')
         for item in images:
             pic = item.get('src')
@@ -42,14 +42,19 @@ def main(parse_url):
 
         # data for scrapping contents ':' and month defined later
         if ':' in scrapping_data and not month == '':
+            # error in web page
+            # *ext contents title airline
             key, value, *ext = scrapping_data.split(':')
-       
+
+            # key 'Airline' is signal: adding dict an create new
             if key == 'Airline' and len(airline) > 1:
+                # pop is list pictures
                 if not len(pictures) == 0:
                     airline['picture'] = pictures.pop(0)
                 airlines.append(airline)
                 airline = {}
-
+                
+            # fix error
             if not len(ext) == 0:
                 value = value.replace('Airline', '').strip()
                 if not len(pictures) == 0:
@@ -63,7 +68,11 @@ def main(parse_url):
             airline['month'] = month
             airline['created'] = datetime.now()
 
+
+    # last data is last airlines and picture
+    airline['picture'] = pictures.pop(0)
     airlines.append(airline)
+    
     return airlines
 
 
