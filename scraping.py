@@ -4,6 +4,7 @@ from lxml.html import fromstring
 import cssselect
 import json
 from datetime import datetime, date, time
+from lxml import etree
 
 
 def main(parse_url):
@@ -40,18 +41,25 @@ def main(parse_url):
                 pictures.append(pic)
 
         # data for scrapping contents ':' and month defined later
-        if ':' in scrapping_data and not month == '':           
-            scrapping_list = scrapping_data.split(':')
-
-            print(scrapping_list)
-            
-            if scrapping_list[0] == 'Airline' and len(airline) > 1:
+        if ':' in scrapping_data and not month == '':
+            key, value, *ext = scrapping_data.split(':')
+       
+            if key == 'Airline' and len(airline) > 1:
                 if not len(pictures) == 0:
                     airline['picture'] = pictures.pop(0)
                 airlines.append(airline)
                 airline = {}
 
-            airline[scrapping_list[0]] = scrapping_list[1].strip()
+            if not len(ext) == 0:
+                value = value.replace('Airline', '').strip()
+                if not len(pictures) == 0:
+                    airline['picture'] = pictures.pop(0)
+                airlines.append(airline)
+                airline = {'Airline': ext[0].strip()}
+            else:
+                value = value.strip()
+
+            airline[key] = value
             airline['month'] = month
             airline['created'] = datetime.now()
 
@@ -61,8 +69,8 @@ def main(parse_url):
 
 def show(lists):
     for list in lists[:]:
-        pass
-        #print(list)
+        #pass
+        print(list)
         
 if __name__ == '__main__':
     # scrapping page
