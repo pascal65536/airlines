@@ -1,3 +1,9 @@
 from django.contrib import admin
+from airlines.models import Airlines
 
-# Register your models here.
+
+class AirlinesAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(Airlines)

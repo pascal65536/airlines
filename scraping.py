@@ -103,8 +103,10 @@ if __name__ == '__main__':
     # scrapping page
     scrap_url = 'https://internationalflyguy.com/2018/12/31/buh-bye-the-airlines-we-lost-in-2018/'
     scrap_year = '2018'
-    file_airlines = f'airlines_lost_{scrap_year}.json'
+    file_airlines = f'lost/airlines/json/airlines_lost_{scrap_year}.json'
     scrap = main(scrap_url, scrap_year)
+
+    print(file_airlines)
 
     # dump dicts of airlines
     with open(file_airlines, 'w') as file_dump:
