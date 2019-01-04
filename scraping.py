@@ -2,13 +2,37 @@ from urllib.request import urlopen
 from lxml.html import fromstring
 import cssselect
 import json
-from datetime import datetime, date, time
+import datetime
+import time
 
 
-def main(parse_url):
+def main(parse_url, parse_year):
 
-    # set of months name
-    MONTHS = {'January','February','March','April','May','June','July','August','September','October','November','December'}
+    # dict name of fields
+    FIELDS = {
+        'Airline': 'title',
+        'From': 'country',
+        'Year Established': 'birthday',
+        'Fleet Size': 'fleet_size',
+        'Status': 'status'
+    }
+
+    # dictionary of months name
+    MONTHS = {
+        'January': '01',
+        'February': '02',
+        'March': '03',
+        'April': '04',
+        'May': '05',
+        'June': '06',
+        'July': '07',
+        'August': '08',
+        'September': '09',
+        'October': '10',
+        'November': '11',
+        'December': '12'
+    }
+
     # selector
     NAME_CSS = '#post-45659 > div.entry-content'
     
@@ -26,8 +50,9 @@ def main(parse_url):
     
     for l in lines:
         # find string contents month name
-        if l.text_content() in MONTHS:
-            month = l.text_content()
+        for key in MONTHS.keys():
+            if key == l.text_content():
+                month = MONTHS[l.text_content()]
 
         scrapping_data = l.text_content()
 
@@ -63,8 +88,8 @@ def main(parse_url):
                 value = value.strip()
 
             airline[key] = value
-            airline['month'] = month
-            airline['created'] = datetime.now()
+            airline['death'] = f'{parse_year}-{month}-01 00:00:00'
+            airline['created'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
     # last data is last airlines and picture
     airline['picture'] = pictures.pop(0)
@@ -73,14 +98,12 @@ def main(parse_url):
     return airlines
 
 
-def show(lst):
-    for l in lst:
-        #pass
-        print(l)
-
-        
 if __name__ == '__main__':
     # scrapping page
-    url = 'https://internationalflyguy.com/2018/12/31/buh-bye-the-airlines-we-lost-in-2018/'
-    scrap = main(url)
-    show(scrap)
+    scrap_url = 'https://internationalflyguy.com/2018/12/31/buh-bye-the-airlines-we-lost-in-2018/'
+    scrap_year = '2018'
+    scrap = main(scrap_url, scrap_year)
+
+    # dump dicts of airlines
+    with open('lst.json', 'w') as f_n:
+        json.dump(scrap, f_n, ensure_ascii=True, indent=2)
