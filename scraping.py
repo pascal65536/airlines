@@ -1,6 +1,5 @@
 from urllib.request import urlopen
 from lxml.html import fromstring
-import cssselect
 import json
 import datetime
 import time
@@ -41,7 +40,6 @@ def main(parse_url, parse_year):
     airlines = []
     pictures = []
     
-    # f = urlopen(parse_url)
     details_html = urlopen(parse_url).read().decode('utf-8')
     details_doc = fromstring(details_html)
 
@@ -79,15 +77,15 @@ def main(parse_url, parse_year):
                 
             # fix error
             if not len(ext) == 0:
-                airline[key] = value.replace('Airline', '').strip()
+                airline[FIELDS[key]] = value.replace('Airline', '').strip()
                 if not len(pictures) == 0:
                     airline['picture'] = pictures.pop(0)
                 airlines.append(airline)
-                airline = {'Airline': ext[0].strip()}
+                airline = {FIELDS['Airline']: ext[0].strip()}
             else:
                 value = value.strip()
 
-            airline[key] = value
+            airline[FIELDS[key]] = value
             airline['death'] = f'{parse_year}-{month}-01 00:00:00'
             airline['created'] = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
 
