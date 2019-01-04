@@ -104,4 +104,4 @@ if __name__ == '__main__':
 
     # dump dicts of airlines
     with open('lst.json', 'w') as f_n:
-        json.dump(scrap, f_n, ensure_ascii=True, indent=2)
+        json.dump(scrap, f_n, indent=2)
