@@ -94,11 +94,6 @@ def main(parse_url, parse_year):
     return airlines
 
 
-def load_from_json(file_name):
-    with open(file_name, 'r', encoding='utf-8-sig') as infile:
-        return json.load(infile)
-
-
 if __name__ == '__main__':
     # scrapping page
     scrap_url = 'https://internationalflyguy.com/2018/12/31/buh-bye-the-airlines-we-lost-in-2018/'
@@ -109,7 +104,10 @@ if __name__ == '__main__':
     print(file_airlines)
 
     # dump dicts of airlines
-    with open(file_airlines, 'w') as file_dump:
-        json.dump(scrap, file_dump, indent=2)
+    with open(file_airlines, 'w') as output_file:
+        json.dump(scrap, output_file, indent=2)
 
-    print(scrap == load_from_json(file_airlines))
+    with open(file_airlines, 'r') as input_file:
+        load_from_json = json.load(input_file)
+
+    print(scrap == load_from_json)
